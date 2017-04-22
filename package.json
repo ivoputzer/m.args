@@ -1,0 +1,32 @@
+{
+  "name": "m.args",
+  "version": "0.0.0",
+  "devDependencies": {
+    "istanbul": "^0.4.5",
+    "m.test": "0.0.56",
+    "standard": "^10.0.2"
+  },
+  "description": "m(icro)test is a lightweight arguments parser written in es6+",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "m.test"
+  },
+  "standard": {
+    "gobals": [
+      "test"
+    ]
+  },
+  "author": "Ivo von Putzer Reibegg <ivo.putzer@gmail.com> (https://github.com/ivoputzer)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivoputzer/m.args.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ivoputzer/m.args/issues"
+  },
+  "homepage": "https://github.com/ivoputzer/m.args#readme"
+}

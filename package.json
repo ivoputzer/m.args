@@ -1,23 +1,31 @@
 {
   "name": "m.args",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "dependencies": {
+    "istanbul": "^0.4.5"
+  },
   "devDependencies": {
-    "istanbul": "^0.4.5",
-    "m.test": "0.0.56",
-    "standard": "^10.0.2"
+    "m.test": "0.0.57",
+    "standard": "^11.0.1"
   },
-  "description": "m(icro)test is a lightweight arguments parser written in es6+",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "test": "m.test"
+  "optionalDependencies": {
+    "istanbul": "^0.4.5"
   },
   "standard": {
     "gobals": [
       "test"
     ]
+  },
+  "description": "m(icro)args is a lightweight arguments parser written in es6+",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "node": "node",
+    "pretest": "standard",
+    "test": "m.test",
+    "coverage": "node --require ./node_modules/m.test/global.js ./node_modules/istanbul/lib/cli.js cover --print detail test"
   },
   "author": "Ivo von Putzer Reibegg <ivo.putzer@gmail.com> (https://github.com/ivoputzer)",
   "license": "MIT",

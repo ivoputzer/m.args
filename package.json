@@ -1,6 +1,19 @@
 {
   "name": "m.args",
   "version": "0.0.1",
+  "author": "Ivo von Putzer Reibegg <ivo.putzer@gmail.com> (https://github.com/ivoputzer)",
+  "description": "m(icro)args is a lightweight arguments parser written in es6+",
+  "license": "MIT",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "node": "node",
+    "pretest": "standard",
+    "test": "m.test",
+    "coverage": "node --require ./node_modules/m.test/global.js ./node_modules/istanbul/lib/cli.js cover --print detail test"
+  },
   "dependencies": {
     "istanbul": "^0.4.5"
   },
@@ -12,23 +25,10 @@
     "istanbul": "^0.4.5"
   },
   "standard": {
-    "gobals": [
+    "globals": [
       "test"
     ]
   },
-  "description": "m(icro)args is a lightweight arguments parser written in es6+",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "node": "node",
-    "pretest": "standard",
-    "test": "m.test",
-    "coverage": "node --require ./node_modules/m.test/global.js ./node_modules/istanbul/lib/cli.js cover --print detail test"
-  },
-  "author": "Ivo von Putzer Reibegg <ivo.putzer@gmail.com> (https://github.com/ivoputzer)",
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ivoputzer/m.args.git"

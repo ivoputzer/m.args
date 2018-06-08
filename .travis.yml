@@ -16,18 +16,18 @@ jobs:
     install: npm install istanbul coveralls
     script: npm run coverage
     after_success: cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js
-
   - stage: deploy
-    provider: npm
-    email: ivo.putzer@gmail.com
-    api_key:
-      secure: CWFdBqWyRKXYKJcqcqo38S7aLafeWZqYPXUUqbcGhbwovlTcQalcXzVSnnOCySt1eF21uhkgU6HiPZ7DEDOuUWjuZtQ0Xj+mZpZ77mkdglfD06Sp+IKUdw0AeGdloppMIc6EccAfeX80Ci+RGtBaHlvXwezr5p/igUrWX4sk67rmke43Fy+qQRkwHiUfyeYtnDJQMdBSCCY/828YQNeeoQZlGmYF+WBStMmJQPmjNHy82KvPIv/2sNXndx6TuQY+N3pz4oKu6J/FKtdQzDUs0pSTa4hUervx5gytiy/e2lZSaqBRwYOuT1FLuthHjVWN8iit3t/znP9gsCUn0oTp1FnjXqqxKLQig+G0g7UwNNbb7BSVW8tucbxKJn5cdb64wNALt2MKBa1kEA8ikLvDMbMUzmS2BdWy0nrRlSf4sDOrVv59ss4N2VLmMjT+g5J6TFFZqgYfWjVNZZSKbKI4JGdMgmA6aJojpOJNlKZAq9MLLGwdEDrD4aBqwQReHQ0SB2A9eMKAX1603TjDK0KTa014f2O+/tioist4AX/Pnvn8HzE3XO4Cg8I1X9m0Mf+irA/kHerU2gWv8DeVEOzfqApILwNSFaY7gGjhtsdtjf+jZrDf+tjYGeCwq/Y1rDVxaRkc7YvQ27TnUi6I2bkSFTyOHGXyeKBqbyBpjlEPRl8=
-    on:
-      repo: ivoputzer/m.args
-      tags: false
-      branch: master
-  allow_failures:
-    - node_js: 7
-    - node_js: 6
+    install: skip
+    script: skip
+    deploy:
+      provider: npm
+      email: ivo.putzer@gmail.com
+      api_key:
+        secure: CWFdBqWyRKXYKJcqcqo38S7aLafeWZqYPXUUqbcGhbwovlTcQalcXzVSnnOCySt1eF21uhkgU6HiPZ7DEDOuUWjuZtQ0Xj+mZpZ77mkdglfD06Sp+IKUdw0AeGdloppMIc6EccAfeX80Ci+RGtBaHlvXwezr5p/igUrWX4sk67rmke43Fy+qQRkwHiUfyeYtnDJQMdBSCCY/828YQNeeoQZlGmYF+WBStMmJQPmjNHy82KvPIv/2sNXndx6TuQY+N3pz4oKu6J/FKtdQzDUs0pSTa4hUervx5gytiy/e2lZSaqBRwYOuT1FLuthHjVWN8iit3t/znP9gsCUn0oTp1FnjXqqxKLQig+G0g7UwNNbb7BSVW8tucbxKJn5cdb64wNALt2MKBa1kEA8ikLvDMbMUzmS2BdWy0nrRlSf4sDOrVv59ss4N2VLmMjT+g5J6TFFZqgYfWjVNZZSKbKI4JGdMgmA6aJojpOJNlKZAq9MLLGwdEDrD4aBqwQReHQ0SB2A9eMKAX1603TjDK0KTa014f2O+/tioist4AX/Pnvn8HzE3XO4Cg8I1X9m0Mf+irA/kHerU2gWv8DeVEOzfqApILwNSFaY7gGjhtsdtjf+jZrDf+tjYGeCwq/Y1rDVxaRkc7YvQ27TnUi6I2bkSFTyOHGXyeKBqbyBpjlEPRl8=
+      on:
+        repo: ivoputzer/m.args
+        tags: false
+        branch: master
+  allow_failures: # prior to lts version and module spec
     - node_js: 5
     - node_js: 4

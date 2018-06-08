@@ -1,6 +1,6 @@
 const {deepStrictEqual} = require('assert')
 
-test('lib.args', () => {
+test('m.args', () => {
   const {parse} = require('..')
 
   test('parses one flag', () => {

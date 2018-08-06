@@ -38,6 +38,7 @@ jobs:
         repo: $TRAVIS_REPO_SLUG
         branch: master
   - stage: push
+    if: branch = master
     install: ignore
     script:
     - export NPM_PACKAGE=$(npm --silent pack)
@@ -53,7 +54,6 @@ jobs:
       api_key: $NPM_TOKEN
       on:
         repo: $TRAVIS_REPO_SLUG
-        branch: master
     - provider: releases
       skip_cleanup: true
       overwrite: false
@@ -61,7 +61,6 @@ jobs:
       api_key: $GITHUB_API_KEY
       on:
         repo: $TRAVIS_REPO_SLUG
-        branch: master
         condition:
         - $NPM_RELEASE_VERSION != $(npm --silent view $PWD version)
 notifications:

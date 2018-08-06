@@ -1,38 +1,18 @@
-exports.parse = (args) => {
-  return reduceToKeyValues(args, {})
+exports.parse = (argv, {assign} = Object, {normalize} = exports) => {
+  return argv.reduce((args, arg, i, list) => {
+    const [name, value = list[i + 1]] = arg.split('=', 2) // supports either spaces and equal separators
+    if (!name.startsWith('--')) return args
+    return assign(args, {
+      [name.slice(2)]: `${value}`.startsWith('--') || normalize(value)
+    })
+  }, {})
 }
 
-function reduceToKeyValues (args, options) {
-  if (args.length === 0) return options
-
-  let key = args[0]
-  let value = args[1]
-
-  if (isValidFlag(key)) {
-    options[parseFlag(key)] = parseValue(value)
+exports.normalize = (value, {parse} = JSON, {normalize} = exports) => {
+  if (value === undefined) return true
+  try {
+    return parse(value)
+  } catch (e) {
+    return normalize(`"${value}"`)
   }
-
-  return reduceToKeyValues(nextArgs(args), options)
-}
-
-function nextArgs (args) {
-  return isValidValue(args[1]) ? args.slice(2) : args.slice(1)
-}
-
-function isValidFlag (key) {
-  return key.indexOf('--') === 0
-}
-
-function isValidValue (value) {
-  return value && !isValidFlag(value)
-}
-
-function parseFlag (key) {
-  return key.slice(2)
-}
-
-function parseValue (value) {
-  if (!isValidValue(value)) return true
-
-  return isNaN(value) ? value : parseInt(value)
 }

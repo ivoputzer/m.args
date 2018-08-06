@@ -1,7 +1,13 @@
+node_modules/
 test/
-
-.babelrc
-.travis.yml
-
+coverage/
+.idea/
+.github/
+.nyc_output/
+.DS_Store
+.npmrc
 *.log
 *.tgz
+*.md
+.travis.yml
+.gitignore

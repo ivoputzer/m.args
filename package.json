@@ -1,6 +1,6 @@
 {
   "name": "m.args",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "author": "Ivo von Putzer Reibegg <ivo.putzer@gmail.com> (https://github.com/ivoputzer)",
   "description": "m(icro)args is a lightweight arguments parser written in es6+",
   "keywords": [

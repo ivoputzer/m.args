@@ -1,5 +1,5 @@
 language: node_js
-install: npm install --no-optional
+if: tag IS blank
 git:
   depth: 1
 node_js:
@@ -10,24 +10,59 @@ node_js:
 - 6
 - 5
 - 4
+cache:
+  directories:
+  - $HOME/.npm
 jobs:
+  allow_failures:
+  - node_js: 5
+  - node_js: 4
   include:
-  - stage: coverage
-    install: npm install istanbul coveralls
-    script: npm run coverage
-    after_success: cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js
-  - stage: deploy
-    install: skip
-    script: skip
+  - stage: lint
+    install: ignore
+    script:
+    - npx standard
+  - stage: cover
+    script:
+    - npx nyc --reporter=text --reporter=lcov npm test
     deploy:
-      provider: npm
-      email: ivo.putzer@gmail.com
-      api_key:
-        secure: CWFdBqWyRKXYKJcqcqo38S7aLafeWZqYPXUUqbcGhbwovlTcQalcXzVSnnOCySt1eF21uhkgU6HiPZ7DEDOuUWjuZtQ0Xj+mZpZ77mkdglfD06Sp+IKUdw0AeGdloppMIc6EccAfeX80Ci+RGtBaHlvXwezr5p/igUrWX4sk67rmke43Fy+qQRkwHiUfyeYtnDJQMdBSCCY/828YQNeeoQZlGmYF+WBStMmJQPmjNHy82KvPIv/2sNXndx6TuQY+N3pz4oKu6J/FKtdQzDUs0pSTa4hUervx5gytiy/e2lZSaqBRwYOuT1FLuthHjVWN8iit3t/znP9gsCUn0oTp1FnjXqqxKLQig+G0g7UwNNbb7BSVW8tucbxKJn5cdb64wNALt2MKBa1kEA8ikLvDMbMUzmS2BdWy0nrRlSf4sDOrVv59ss4N2VLmMjT+g5J6TFFZqgYfWjVNZZSKbKI4JGdMgmA6aJojpOJNlKZAq9MLLGwdEDrD4aBqwQReHQ0SB2A9eMKAX1603TjDK0KTa014f2O+/tioist4AX/Pnvn8HzE3XO4Cg8I1X9m0Mf+irA/kHerU2gWv8DeVEOzfqApILwNSFaY7gGjhtsdtjf+jZrDf+tjYGeCwq/Y1rDVxaRkc7YvQ27TnUi6I2bkSFTyOHGXyeKBqbyBpjlEPRl8=
+    - provider: script
+      skip_cleanup: true
+      script:
+      - npx nyc report --reporter=text-lcov | npx coveralls --verbose
+    - provider: pages
+      skip_cleanup: true
+      local_dir: coverage/lcov-report
+      github_token: $GITHUB_TOKEN
       on:
-        repo: ivoputzer/m.args
-        tags: false
+        repo: $TRAVIS_REPO_SLUG
         branch: master
-  allow_failures: # prior to lts version and module spec
-    - node_js: 5
-    - node_js: 4
+  - stage: push
+    install: ignore
+    script:
+    - export NPM_PACKAGE=$(npm --silent pack)
+    after_success:
+    - NPM_VERSION_TAR=${NPM_PACKAGE##*-}
+    - export NPM_PACKAGE_VERSION=${NPM_VERSION_TAR%.*}
+    - export NPM_RELEASE_VERSION=$(npm --silent view $PWD version)
+    - git tag --annotate $NPM_PACKAGE_VERSION --message $NPM_PACKAGE_VERSION
+    - git describe --tags --exact-match
+    deploy:
+    - provider: npm
+      email: ivo.putzer@gmail.com
+      api_key: $NPM_TOKEN
+      on:
+        repo: $TRAVIS_REPO_SLUG
+        branch: master
+    - provider: releases
+      skip_cleanup: true
+      overwrite: false
+      file: $NPM_PACKAGE
+      api_key: $GITHUB_API_KEY
+      on:
+        repo: $TRAVIS_REPO_SLUG
+        branch: master
+        condition:
+        - $NPM_RELEASE_VERSION != $(npm --silent view $PWD version)
+notifications:
+  email: false

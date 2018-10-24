@@ -1,8 +1,6 @@
-exports.parse = (args) => {
-  return reduceToKeyValues(args, {})
-}
+exports.parse = parseArgs
 
-function reduceToKeyValues (args, options) {
+function parseArgs (args, options = {}) {
   if (args.length === 0) return options
 
   let key = args[0]
@@ -12,7 +10,7 @@ function reduceToKeyValues (args, options) {
     options[parseFlag(key)] = parseValue(value)
   }
 
-  return reduceToKeyValues(nextArgs(args), options)
+  return parseArgs(nextArgs(args), options)
 }
 
 function nextArgs (args) {

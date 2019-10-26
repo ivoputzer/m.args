@@ -8,5 +8,5 @@ m.args
 ```js
   #/usr/bin/env node
   const {parse} = require('m.args')
-  const args = parse(process.argv.slice(2))
+  const args = parse(['--port', '8080']) // { port: 8080 }
 ```
